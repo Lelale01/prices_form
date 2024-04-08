@@ -1,0 +1,61 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - "5434:5432"
+    environment:
+      - DATABASE_HOST=127.0.0.1
+      - POSTGRES_USER=me
+      - POSTGRES_PASSWORD=contrasena
+      - POSTGRES_DB=price
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "contrasena"
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
+
+  web:
+    build:
+      context: .
+      dockerfile: ./deployment/images/backend.Dockerfile
+    container_name: prices_form
+    image: prices_form
+    command: python manage.py runserver 0:8000
+    environment:
+      &backend_environment
+      - DJANGO_DEBUG=true
+    ports:
+      - "8000:8000"
+      - "8888:8888"
+    volumes:
+      &backend_volumes
+      - ./plataforma:/app:cached
+    depends_on:
+      &backend_depends_on
+      - postgres
+
+  # ui:
+  #   build:
+  #     context: .
+  #     dockerfile: ./deployment/images/ui.Dockerfile
+  #   image: prices_form-ui
+  #   command: npm run dev
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     &ui_volumes
+  #     - ./ui:/app:cached
+  #     - ./extra/dev.prices_form.com-key.pem:/extra/dev.prices_form.com-key.pem:ro
+  #     - ./extra/dev.prices_form.com.pem:/extra/dev.prices_form.com.pem:ro
+  #     - /app/node_modules
+  #   depends_on:
+  #     &ui_depends_on
+  #     - web
