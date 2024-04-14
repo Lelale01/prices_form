@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "price",
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,102 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+HARINAS_PANIFICADOS = {
+    ('pan francés', 'pan francés'),
+    ('galletitas dulces', 'galletitas dulces'),
+    ('galletitas de agua', 'galletitas de agua'),
+    ('harina de trigo', 'harina de trigo'),
+    ('harina de maíz', 'harina de maíz'),
+    ('fideos secos', 'fideos secos')
+}
+CEREALES_LEGUMBRES = {
+    ('arroz', 'arroz'),
+    ('arvejas en lata', 'arvejas en lata'),
+    ('lentejas secas', 'lentejas secas'),
+}
+
+CARNES = {
+    ('huevo', 'huevo'),
+    ('asado', 'asado'),
+    ('carnaza común', 'carnaza común'),
+    ('hueso con carne', 'hueso con carne'),
+    ('paleta', 'paleta'),
+    ('carne picada', 'carne picada'),
+    ('nalga', 'nalga'),
+    ('hígado', 'hígado'),
+    ('pechito de cerdo', 'pechito de cerdo'),
+    ('pollo', 'pollo'),
+    ('carne de pescado', 'carne de pescado'),
+    ('mortadela', 'mortadela'),
+    ('paleta cocida', 'paleta cocida'),
+    ('salchichón', 'salchichón'),
+    ('salame', 'salame'),
+}
+
+OLEOS = {
+    ('aceite de girasol', 'aceite de girasol'),
+    ('margarina para cocinar', 'margarina para cocinar'),
+}
+
+LACTEOS = {
+    ('leche fluida', 'leche fluida'),
+    ('leche en polvo entera', 'leche en polvo entera'),
+    ('queso crema', 'queso crema'),
+    ('queso cuartirolo', 'queso cuartirolo'),
+    ('queso de rallar', 'queso de rallar'),
+    ('manteca', 'manteca'),
+    ('yogur', 'yogur'),
+    ('dulce de leche', 'dulce de leche'),
+}
+
+FRUTAS = {
+    ('manzana', 'manzana'),
+    ('mandarina', 'mandarina'),
+    ('naranja', 'naranja'),
+    ('banana', 'banana'),
+    ('pera', 'pera'),
+}
+
+VERDURAS_HORTALIZAS = {
+    ('batata', 'batata'),
+    ('papa', 'papa'),
+    ('acelga', 'acelga'),
+    ('cebolla', 'cebolla'),
+    ('choclo', 'choclo'),
+    ('lechuga', 'lechuga'),
+    ('tomate perita', 'tomate perita'),
+    ('zanahoria', 'zanahoria'),
+    ('zapallo', 'zapallo'),
+    ('tomate envasado', 'tomate envasado'),
+}
+
+
+DULCES = {
+    ('azúcar', 'azúcar'),
+    ('dulce de batata', 'dulce de batata'),
+    ('mermelada', 'mermelada'),
+}
+
+
+CONDIMENTOS = {
+    ('sal fina', 'sal fina'),
+    ('mayonesa', 'mayonesa'),
+    ('vinagre', 'vinagre'),
+    ('caldo concentrado', 'caldo concentrado'),    
+}
+
+BEBIDAS = {
+    ('gaseosas', 'gaseosas'),
+    ('jugos concentrados', 'jugos concentrados'),
+    ('soda', 'soda'),
+    ('cerveza', 'cerveza'),
+    ('vino', 'vino'),
+}
+
+INFUCIONES = {
+    ('café', 'café'),
+    ('yerba', 'yerba'),
+    ('te en saquitos', 'te en saquitos'),
+}
+
