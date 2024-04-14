@@ -69,7 +69,7 @@ class GastoAdmin(admin.ModelAdmin):
 
 class GastoInline(admin.TabularInline):
     model=Gasto
-    """
+
     categorias = {
         "HARINAS_PANIFICADOS": settings.HARINAS_PANIFICADOS,
         "CEREALES_LEGUMBRES": settings.CEREALES_LEGUMBRES,
@@ -83,10 +83,10 @@ class GastoInline(admin.TabularInline):
         "BEBIDAS": settings.BEBIDAS,
         "INFUCIONES": settings.INFUCIONES,
     }
-
+    """
     fieldsets = []
     for cat in categorias:
-        fieldsets.append(cat, {'fields': (f'producto_{cat}', f'costo_{cat}')})
+        fieldsets.append((cat, {'fields': (f'producto_{cat}', f'costo_{cat}')}))
 
     def get_form(self, request, obj=None, **kwargs):
         for cat in self.categorias:
