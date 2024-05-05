@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.core.exceptions import ValidationError
 
 class Region(models.Model):
     nombre = models.CharField(max_length=100)
@@ -54,4 +55,23 @@ class Gasto(models.Model):
 
     def __str__(self):
         return self.producto
+    
+    def clean(self):
+        super().clean()
+        if self.nombre not in dict(settings.HARINAS_PANIFICADOS +
+                                   settings.HARINAS_PANIFICADOS +
+                                   settings.CEREALES_LEGUMBRES +
+                                   settings.CARNES +
+                                   settings.OLEOS + 
+                                   settings.LACTEOS + 
+                                   settings.FRUTAS + 
+                                   settings.VERDURAS_HORTALIZAS + 
+                                   settings.DULCES + 
+                                   settings.CONDIMENTOS + 
+                                   settings.BEBIDAS + settings.INFUCIONES):
+            raise ValidationError("El nombre del gasto no es válido.")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 

@@ -4,10 +4,25 @@ from django import forms
 from .models import Producto, Provincia, Region, ListaProducto, Gasto, ListaGasto, TipoComercio
 from django.contrib.auth.models import Group
 from django.conf import settings
+from import_export.admin import ImportExportModelAdmin
+from .resources import ListaGastoResource, GastoInlineResource
+
+class GastoInline(admin.TabularInline):
+    model = Gasto
+    extra = 1
+    resource_class = GastoInlineResource
+
+@admin.register(ListaGasto)
+class ListaGastoAdmin(ImportExportModelAdmin):
+    resource_class = ListaGastoResource
+    inlines = [GastoInline]
+
+@admin.register(Gasto)
+class GastoAdmin(ImportExportModelAdmin):
+    resource_class = GastoInlineResource
 
 
 group, created = Group.objects.get_or_create(name='visores')
-
 
 if created:
     group.save()
@@ -62,48 +77,3 @@ class ProvinciaAdmin(SuperuserOnlyAdmin):
 class TipoComercioAdmin(SuperuserOnlyAdmin):
     list_display = ['tipo']
     exclude = ['listaProducto']
-
-@admin.register(Gasto)
-class GastoAdmin(admin.ModelAdmin):
-    pass
-
-class GastoInline(admin.TabularInline):
-    model=Gasto
-
-    categorias = {
-        "HARINAS_PANIFICADOS": settings.HARINAS_PANIFICADOS,
-        "CEREALES_LEGUMBRES": settings.CEREALES_LEGUMBRES,
-        "CARNES": settings.CARNES,
-        "OLEOS": settings.OLEOS,
-        "LACTEOS": settings.LACTEOS,
-        "FRUTAS": settings.FRUTAS,
-        "VERDURAS_HORTALIZAS": settings.VERDURAS_HORTALIZAS,
-        "DULCES": settings.DULCES,
-        "CONDIMENTOS": settings.CONDIMENTOS,
-        "BEBIDAS": settings.BEBIDAS,
-        "INFUCIONES": settings.INFUCIONES,
-    }
-    """
-    fieldsets = []
-    for cat in categorias:
-        fieldsets.append((cat, {'fields': (f'producto_{cat}', f'costo_{cat}')}))
-
-    def get_form(self, request, obj=None, **kwargs):
-        for cat in self.categorias:
-            self.form.base_fields[f'producto_{cat}'].widget.choices = self.categorias[cat]
-        return super().get_form(request, obj, **kwargs)
-    """
-
-
-@admin.register(ListaGasto)
-class ListaGastoAdmin(admin.ModelAdmin):
-    list_display = ["fecha", "tipoComercio"]
-    inlines = [GastoInline]
-    def get_exclude(self, request, obj=None):
-        if request.user.is_superuser:
-            return ()
-        else:
-            return ('usuario',)
-    def save_model(self, request, obj, form, change):
-        obj.usuario = request.user
-        super().save_model(request, obj, form, change)
